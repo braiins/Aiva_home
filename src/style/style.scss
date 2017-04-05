@@ -1,11 +1,84 @@
+@import "mixins";
+
 html, body {
     position: relative;
     width: 100%;
     height: 100%;
-    padding: 0;
-    margin: 0;
+    font-size: 10px;
+    overflow: hidden;
 }
 
-body {
-    background: white url("../img/landing_logo.png") no-repeat center center;
+
+#boot {
+    position: fixed;
+    top: 0; bottom: 0;
+    left: 0; right: 0;
+    z-index: 9999;
+
+    background-color: #fff;
+}
+
+.boot--logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 342px;
+    height: 113px;
+
+    font-size: 0; // prevent a (inline blocks) whitespace glitch when font is loaded
+    white-space: nowrap;
+    @include transform(translate(-50%, -50%));
+
+    // Particles GIF, initially hidden
+    // Needs to be restarted before showing!
+    .particles {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -(266px / 2);
+        margin-left: -(448px / 2);
+        opacity: 0;
+    }
+
+    // Letter
+    > span {
+        position: relative;
+        display: inline-block;
+        height: 113px;
+        background-image: url('../img/logo--sprite.png');
+        background-repeat: no-repeat;
+
+        // Initial state
+        opacity: 0.4;
+        @include transform(scale(0) translate3d(0px, 0px, 0px));
+
+        // Spacing
+        & + span { margin-left: -4.5%; }
+    }
+
+    // Individual letters
+    $a: 109px;
+    $i: 70px;
+    $v: 111px;
+    .a1 { width: $a; background-position: 0 0; }
+    .i  { width: $i; background-position: -$a 0; }
+    .v  { width: $v; background-position: -($a + $i) 0; }
+    .a2 { width: $a; background-position: -($a + $i + $v) 0; }
+
+    .sub {
+        width: 171px;
+        height: 20px;
+        background: url('../img/logo--sprite.png') no-repeat 0 100%;
+        margin: 6rem auto 0;
+
+        // Initial state
+        opacity: 0;
+        @include transform(scale(0.9) translate3d(0px, 0px, 0px));
+    }
+}
+
+@media (max-width: 450px) {
+    .boot--logo {
+        @include transform(translate(-50%, -50%) scale(0.65));
+    }
 }
